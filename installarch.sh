@@ -6,6 +6,8 @@ sudo pacman -Syu
 echo "Instalando neofetch vim git base-devel"
 sudo pacman -S fastfetch vim git base-devel gnome-terminal xdotool gufw archlinux-wallpaper --noconfirm
 
+sudo pacman -S ttf-fira-code
+
 echo "Instalando kdenlive, gimp, obs-studio e audacity..."
 sudo pacman -S kdenlive gimp obs-studio audacity
 
