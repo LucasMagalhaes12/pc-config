@@ -1,47 +1,58 @@
 #!/bin/bash
 
-# Atualiza a lista de pacotes e o sistema
-sudo pacman -Syu
+sudo pacman -Syu --noconfirm
 
-echo "Instalando neofetch vim git base-devel"
-sudo pacman -S fastfetch vim git base-devel gnome-terminal xdotool gufw archlinux-wallpaper --noconfirm
-
-sudo pacman -S ttf-fira-code
-
-echo "Instalando kdenlive, gimp, obs-studio e audacity..."
-sudo pacman -S kdenlive gimp obs-studio audacity
-
-echo "Instalando Steam e ferramentas de joystick..."
+# Instala os programas do repositorio flatpak
+sudo pacman -S --noconfirm --needed vim git base-devel gufw fastfetch gnome-terminal xdotool
+# Multimídia e ferramentas de áudio
+sudo pacman -S --noconfirm --needed kdenlive gimp obs-studio audacity
+# Ferramentas de rede e utilitários
+# sudo pacman -S --noconfirm --needed samba
+# Fontes e papel de parede
+sudo pacman -S --noconfirm --needed ttf-fira-code archlinux-wallpaper
+# Instalando Steam e ferramentas de joystick..."
 sudo pacman -S steam steam-devices joystick
 
+# Configurações do GNOME para extensões
+sudo pacman -S gnome-browser-connector --noconfirm
+# Instalar manualmente pelo firefox o appindicator
+
+# Programas do AUR
 # Sincroniza o sistema novamente antes de instalar do AUR
 # sudo pacman -Syu --noconfirm
-
 # Clona e instala o Google Chrome do AUR
-# echo "Clonando e instalando Google Chrome do AUR..."
 # cd ~/Downloads
 # git clone https://aur.archlinux.org/google-chrome.git
 # cd google-chrome
 # makepkg -si --noconfirm
-# cd ..
-
 # Define o Google Chrome como navegador padrão
-# echo "Definindo o Google Chrome como navegador padrão..."
 # xdg-settings set default-web-browser google-chrome.desktop
 
-# Configurações do GNOME para extensões
-echo "Instalando o conector do GNOME para navegador..."
-sudo pacman -S gnome-browser-connector --noconfirm
+# visual-studio-code-bin
 
-# Instalar o Flatpak Discord Obsidian
+# Programas do Flatpak
+# discord, obsidian
 
 
-# Cria pasta Dev na home:
-mkdir /home/$USER/Dev
+# Cria o ambiente virtual do Python
+mkdir ~/Dev
+python -m venv ~/Dev/.venv
+# pip3 install pygame pyGObject keyboard
 
-# Instala Venv:
-python3 -m venv /home/$USER/Dev/venv
+# Configuração do .bashrc
+# Aliases para gerenciar o serviço do Samba
+echo 'alias smbon="sudo systemctl start smb.service nmb.service"' >> ~/.bashrc
+echo 'alias smboff="sudo systemctl stop smb.service nmb.service"' >> ~/.bashrc
+# Aliases para gerenciar o ambiente virtual do Python
+echo 'alias venvon="source ~/Dev/.venv/bin/activate"' >> ~/.bashrc
+echo 'alias venvoff="deactivate"' >> ~/.bashrc
 
-# Adiciona um alias pra ativar venv
-echo 'alias venvon="source ~/Dev/venv/bin/activate"' >> /home/$USER/.bashrc
-echo 'alias venvoff="deactivate"' >> /home/$USER/.bashrc
+# Configuração do prompt de comando com cores
+#PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+source ~/.bashrc
+
+
+
+
+
