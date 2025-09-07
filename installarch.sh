@@ -27,6 +27,8 @@ sudo pacman -S gnome-browser-connector --noconfirm
 # makepkg -si --noconfirm
 # Define o Google Chrome como navegador padrão
 # xdg-settings set default-web-browser google-chrome.desktop
+# git clone https://aur.archlinux.org/visual-studio-code-bin.git
+
 
 # visual-studio-code-bin
 
