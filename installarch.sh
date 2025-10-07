@@ -53,8 +53,8 @@ git config --global init.defaultBranch main
 # Sincroniza o sistema novamente antes de instalar do AUR
 # sudo pacman -Syu --noconfirm
 
-mkdir $HOME/aur
-cd $HOME/aur
+mkdir $HOME/AUR
+cd $HOME/AUR
 
 # Clona programas AUR
 git clone https://aur.archlinux.org/google-chrome.git
