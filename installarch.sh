@@ -3,19 +3,22 @@
 sudo pacman -Syu --noconfirm
 
 # Instala os programas do repositorio flatpak
-sudo pacman -S --noconfirm --needed vim git base-devel gufw fastfetch gnome-terminal xdotool
+sudo pacman -S --noconfirm --needed base-devel git vim gufw fastfetch xdotool #gnome-terminal
 # Multimídia e ferramentas de áudio
 sudo pacman -S --noconfirm --needed kdenlive gimp obs-studio audacity
 # Ferramentas de rede e utilitários
-# sudo pacman -S --noconfirm --needed samba
+sudo pacman -S --noconfirm --needed samba plymouth less tree # power-profiles-daemon
 # Fontes e papel de parede
-sudo pacman -S --noconfirm --needed ttf-fira-code archlinux-wallpaper
+sudo pacman -S --noconfirm --needed ttf-fira-code noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-liberation ttf-jetbrains-mono-nerd inter-font ttf-roboto inter-font ttf-ubuntu-font-family archlinux-wallpaper
 # Instalando Steam e ferramentas de joystick..."
-sudo pacman -S steam steam-devices joystick
+sudo pacman -S steam joystick gnome-chess gnome-sudoku
 
-# Configurações do GNOME para extensões
+# Configurações do GNOME para extensões - Instalar manualmente pelo firefox o appindicator
 sudo pacman -S gnome-browser-connector --noconfirm
-# Instalar manualmente pelo firefox o appindicator
+
+# Ativar serviços essenciais
+sudo systemctl enable ufw.service
+sudo systemctl enable bluetooth --now
 
 # Programas do Flatpak
 # discord, obsidian
@@ -28,6 +31,10 @@ python -m venv $HOME/Dev/.venv
 
 mkdir -p $HOME/.local/bin
 cp aur.sh $HOME/.local/bin/aur
+chmod +x $HOME/.local/bin/aur
+
+mkdir $HOME/.icons
+cp Bibata-Modern-Ice $HOME/.icons
 
 # Configuração do .bashrc
 # Aliases para gerenciar o serviço do Samba
@@ -54,10 +61,8 @@ git config --global init.defaultBranch main
 # sudo pacman -Syu --noconfirm
 
 mkdir $HOME/AUR
-cd $HOME/AUR
 
-# Clona programas AUR
-git clone https://aur.archlinux.org/google-chrome.git
-git clone https://aur.archlinux.org/visual-studio-code-bin.git
 # Define o Google Chrome como navegador padrão
 # xdg-settings set default-web-browser google-chrome.desktop
+
+

@@ -4,7 +4,7 @@ folder="/home/$USER/AUR"
 
 
 
-while getopts ":huc" opt; do
+while getopts ":huic" opt; do
 	case $opt in
 	h)
 		echo "usage:"
@@ -12,16 +12,34 @@ while getopts ":huc" opt; do
 		echo 
 		echo "options:"
 		echo "  -u         update packages"
+		echo "  -i         install packages"
 		echo "  -c         create folder AUR"
 
 		echo
 		;;
-	
 	u)
+		if [ -d "$folder" ]; then
+			cd $folder
+			rm -rf *
+			echo "-----------------------------------"
+			echo " Clonando repositorios			 "
+			echo "-----------------------------------"
+			echo
+			git clone https://aur.archlinux.org/google-chrome.git
+			git clone https://aur.archlinux.org/visual-studio-code-bin.git
+			# git clone https://aur.archlinux.org/arduino-ide-bin.git
+		
+		else
+			echo the folder does not exist!
+			exit 1
+		fi
+		;;
+	
+	i)
 		if [ -d "$folder" ]; then
 			for dir in $folder/*/; do
 				echo "-----------------------------------"
-				echo "Atualizando pacote: $dir"
+				echo "	;Atualizando pacote: $dir"
 				echo "-----------------------------------"
 				echo
 				cd "$dir"
