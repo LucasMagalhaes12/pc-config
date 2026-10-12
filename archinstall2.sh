@@ -11,13 +11,13 @@ echo "=== 2. INSTALANDO PACOTES BASE E UTILITÁRIOS ==="
 sudo pacman -S --noconfirm --needed \
     base-devel git vim gufw fastfetch flatpak plymouth less rsync \
     bat eza yazi tmux blender godot starship docker docker-compose \
-    gnome-browser-connector gnome-tweaks
+    gnome-browser-connector gnome-tweaks extension-manager
 
 echo "=== 3. INSTALANDO APLICATIVOS MULTIMÍDIA E JOGOS ==="
 sudo pacman -S --noconfirm --needed \
     kdenlive gimp inkscape obs-studio audacity \
     libreoffice-fresh libreoffice-fresh-pt-br \
-    steam joystick gnome-chess gnome-sudoku
+    steam joystick gnome-chess gnome-sudoku firefox
 
 echo "=== 4. INSTALANDO FONTES ==="
 sudo pacman -S --noconfirm --needed \
