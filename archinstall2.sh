@@ -5,6 +5,7 @@ echo "=== 1. OTIMIZANDO PACMAN ==="
 sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
 sudo sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 sudo sed -i '/^#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
+grep -q "ILoveCandy" /etc/pacman.conf || sudo sed -i '/^Color/a ILoveCandy' /etc/pacman.conf
 sudo pacman -Syu --noconfirm
 
 echo "=== 2. INSTALANDO PACOTES BASE E UTILITÁRIOS ==="
@@ -17,7 +18,7 @@ echo "=== 3. INSTALANDO APLICATIVOS MULTIMÍDIA E JOGOS ==="
 sudo pacman -S --noconfirm --needed \
     kdenlive gimp inkscape obs-studio audacity \
     libreoffice-fresh libreoffice-fresh-pt-br \
-    steam joystick gnome-chess gnome-sudoku firefox
+    steam joystick gnome-chess gnome-sudoku firefox arduino-cli
 
 echo "=== 4. INSTALANDO FONTES ==="
 sudo pacman -S --noconfirm --needed \
@@ -56,6 +57,7 @@ if [ -f "scripts/aur.sh" ]; then
     mkdir -p "$HOME/.local/bin/"
     cp scripts/aur.sh "$HOME/.local/bin/aur"
     chmod +x "$HOME/.local/bin/aur"
+    "$HOME/.local/bin/aur" -c
     "$HOME/.local/bin/aur" -ui
 fi
 

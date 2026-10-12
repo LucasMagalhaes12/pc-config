@@ -1,6 +1,6 @@
 #/bin/bash
 
-folder="/home/$USER/AUR"
+folder="/home/$USER/.aur"
 
 while getopts ":huic" opt; do
   case $opt in
