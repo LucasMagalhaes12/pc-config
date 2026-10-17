@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+NAME="Lucas Magalhães"
+EMAIL=""
+
 echo "=== 1. OTIMIZANDO PACMAN ==="
 sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
 sudo sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
@@ -12,7 +15,7 @@ echo "=== 2. INSTALANDO PACOTES BASE E UTILITÁRIOS ==="
 sudo pacman -S --noconfirm --needed \
     base-devel git vim gufw fastfetch flatpak plymouth less rsync \
     bat eza yazi tmux blender godot starship docker docker-compose \
-    gnome-browser-connector gnome-tweaks extension-manager
+    gnome-browser-connector gnome-tweaks extension-manager meld
 
 echo "=== 3. INSTALANDO APLICATIVOS MULTIMÍDIA E JOGOS ==="
 sudo pacman -S --noconfirm --needed \
@@ -42,7 +45,7 @@ sudo usermod -aG docker $USER
 
 echo "=== 7. CONFIGURANDO FLATPAK ==="
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub com.discordapp.Discord md.obsidian.Obsidian
+flatpak install -y flathub com.discordapp.Discord md.obsidian.Obsidian flathub com.ultimaker.cura
 
 echo "=== 8. CONFIGURANDO AMBIENTE PYTHON ==="
 mkdir -p "$HOME/Dev"
@@ -81,6 +84,10 @@ grep -qF 'export PATH="$HOME/.local/bin:$PATH"' "$BASHRC" || echo 'export PATH="
 grep -qF 'eval "$(starship init bash)"' "$BASHRC" || echo 'eval "$(starship init bash)"' >> "$BASHRC"
 
 git config --global init.defaultBranch main
+git config --global user.name $NAME
+git config --global user.email $EMAIL
+git config --global merge.tool meld
+git config --global mergetool.meld.useAutoMerge true
 
 echo "=== 12. CONFIGURAÇÃO INICIAL DO SNAPPER ==="
 if [ ! -d "/.snapshots" ]; then
