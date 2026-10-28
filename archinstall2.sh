@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-NAME="Lucas Magalhães"
-EMAIL=""
+read -p "Digite seu Nome Completo para o Git: " NAME
+read -p "Digite seu E-mail para o Git: " EMAIL
 
 echo "=== 1. OTIMIZANDO PACMAN ==="
 sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
@@ -21,7 +21,8 @@ echo "=== 3. INSTALANDO APLICATIVOS MULTIMÍDIA E JOGOS ==="
 sudo pacman -S --noconfirm --needed \
     kdenlive gimp inkscape obs-studio audacity \
     libreoffice-fresh libreoffice-fresh-pt-br \
-    steam joystick gnome-chess gnome-sudoku firefox arduino-cli
+    steam joystick gnome-chess gnome-sudoku \
+    firefox arduino-cli vlc
 
 echo "=== 4. INSTALANDO FONTES ==="
 sudo pacman -S --noconfirm --needed \
