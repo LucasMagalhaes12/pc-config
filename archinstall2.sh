@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Detectando a CPU (Intel ou AMD)
+# CPU_VENDOR=$(lscpu | grep "Vendor ID" | awk '{print $3}')
+
 read -p "Digite seu Nome Completo para o Git: " NAME
 read -p "Digite seu E-mail para o Git: " EMAIL
 
@@ -14,17 +17,20 @@ sudo pacman -Syu --noconfirm
 echo "=== 2. INSTALANDO PACOTES BASE E UTILITÁRIOS ==="
 sudo pacman -S --noconfirm --needed \
     base-devel git vim gufw fastfetch flatpak plymouth less rsync \
-    bat eza yazi tmux blender godot starship docker docker-compose \
-    gnome-browser-connector gnome-tweaks extension-manager meld
+    bat eza yazi tmux blender godot starship docker docker-compose meld
 
 echo "=== 3. INSTALANDO APLICATIVOS MULTIMÍDIA E JOGOS ==="
 sudo pacman -S --noconfirm --needed \
     kdenlive gimp inkscape obs-studio audacity \
     libreoffice-fresh libreoffice-fresh-pt-br \
-    steam joystick gnome-chess gnome-sudoku \
-    firefox arduino-cli vlc
+    steam joystick firefox arduino-cli vlc
 
-echo "=== 4. INSTALANDO FONTES ==="
+echo "=== 4. INSTALANDO COMPONENTES E FERRAMENTAS DO GNOME ==="
+sudo pacman -S --noconfirm --needed \
+    gnome-browser-connector gnome-tweaks extension-manager \
+    gnome-chess gnome-sudoku
+
+echo "=== 5. INSTALANDO FONTES ==="
 sudo pacman -S --noconfirm --needed \
     ttf-fira-code noto-fonts noto-fonts-cjk noto-fonts-emoji \
     ttf-liberation ttf-jetbrains-mono-nerd inter-font ttf-roboto \
@@ -33,10 +39,10 @@ sudo pacman -S --noconfirm --needed \
 
 fc-cache -fv
 
-echo "=== 5. INSTALANDO BTRFS E BACKUP (SYSTEMD-BOOT) ==="
+echo "=== 6. INSTALANDO BTRFS E BACKUP (SYSTEMD-BOOT) ==="
 sudo pacman -S --noconfirm --needed snapper btrfs-assistant
 
-echo "=== 6. ATIVANDO SERVIÇOS DO SISTEMA ==="
+echo "=== 7. ATIVANDO SERVIÇOS DO SISTEMA ==="
 sudo systemctl enable --now ufw.service
 sudo systemctl enable --now bluetooth.service
 sudo systemctl enable --now docker.service
@@ -44,11 +50,11 @@ sudo systemctl enable --now docker.service
 # Adiciona o usuário atual ao grupo docker para rodar containers sem sudo
 sudo usermod -aG docker $USER
 
-echo "=== 7. CONFIGURANDO FLATPAK ==="
+echo "=== 8. CONFIGURANDO FLATPAK ==="
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub com.discordapp.Discord md.obsidian.Obsidian flathub com.ultimaker.cura
 
-echo "=== 8. CONFIGURANDO AMBIENTE PYTHON ==="
+echo "=== 9. CONFIGURANDO AMBIENTE PYTHON ==="
 mkdir -p "$HOME/Dev"
 python -m venv "$HOME/Dev/.venv"
 source "$HOME/Dev/.venv/bin/activate"
@@ -56,7 +62,7 @@ pip install --upgrade pip
 pip install pygame opencv-python
 deactivate
 
-echo "=== 9. INSTALANDO AUR HELPER (SE EXISTIR SCRIPT) ==="
+echo "=== 10. INSTALANDO AUR HELPER (SE EXISTIR SCRIPT) ==="
 if [ -f "scripts/aur.sh" ]; then
     mkdir -p "$HOME/.local/bin/"
     cp scripts/aur.sh "$HOME/.local/bin/aur"
@@ -65,14 +71,14 @@ if [ -f "scripts/aur.sh" ]; then
     "$HOME/.local/bin/aur" -ui
 fi
 
-echo "=== 10. APLICANDO TEMAS E CURSORES ==="
+echo "=== 11. APLICANDO TEMAS E CURSORES ==="
 mkdir -p "$HOME/.local/share/icons"
 if [ -d "config/Bibata-Modern-Ice" ]; then
     cp -r config/Bibata-Modern-Ice "$HOME/.local/share/icons/"
     gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Ice'
 fi
 
-echo "=== 11. CONFIGURANDO ALIASES E BASHRC ==="
+echo "=== 12. CONFIGURANDO ALIASES E BASHRC ==="
 BASHRC="$HOME/.bashrc"
 
 grep -qF "alias cat='bat --paging=never'" "$BASHRC" || echo "alias cat='bat --paging=never'" >> "$BASHRC"
@@ -85,12 +91,12 @@ grep -qF 'export PATH="$HOME/.local/bin:$PATH"' "$BASHRC" || echo 'export PATH="
 grep -qF 'eval "$(starship init bash)"' "$BASHRC" || echo 'eval "$(starship init bash)"' >> "$BASHRC"
 
 git config --global init.defaultBranch main
-git config --global user.name $NAME
-git config --global user.email $EMAIL
+git config --global user.name "$NAME"
+git config --global user.email "$EMAIL"
 git config --global merge.tool meld
 git config --global mergetool.meld.useAutoMerge true
 
-echo "=== 12. CONFIGURAÇÃO INICIAL DO SNAPPER ==="
+echo "=== 13. CONFIGURAÇÃO INICIAL DO SNAPPER ==="
 if [ ! -d "/.snapshots" ]; then
     sudo snapper -c root create-config /
     sudo systemctl enable --now snapper-timeline.timer snapper-cleanup.timer
